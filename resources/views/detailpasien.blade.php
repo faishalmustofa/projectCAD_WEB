@@ -29,8 +29,10 @@
                 <canvas id="myChart" height="300" width="1200"></canvas>
             </div>
         </div>
+        
         <!-- /.card-body -->
     </section>
+    
     <!-- /.content -->=
     <section class="content">
         <div class="row">
@@ -47,6 +49,7 @@
                                         <th>No Telepon</th>
                                         <th>Jenis Kelamin</th>
                                         <th>Alamat</th>
+                                        <th>Diagnosis</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -56,13 +59,18 @@
                                         <td>{{$hasil['pasien']->no_telp}}</td>
                                         <td>{{$hasil['pasien']->jeniskelamin}}</td>
                                         <td>{{$hasil['pasien']->alamat}}</td>
+                                        @if ( $hasil['pasien']->label == 0 )
+                                            <td>Sehat</td>
+                                        @else
+                                            <td>Sakit</td>
+                                        @endif
                                     </tr>
                                 </tfoot>
                             </table>
                             <center class="loading"><div class="lds-ripple d-flex align-items-center"><div></div><div></div></div></center>
                         </div>
-                        <a type="button" class="btn btn-primary float-right" href="/list-pasien">Kembali</a>
                     </div>
+                    <a type="button" class="btn btn-primary float-right" href="/list-pasien">Kembali</a>
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
@@ -75,26 +83,26 @@
   <!-- /.content-wrapper -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script>
-        var label = <?php echo json_encode($label); ?>;
-        var dataset = <?php echo json_encode($hasil["dataset"]); ?>;
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var chart = new Chart(ctx, {
-            // The type of chart we want to create
-            type: 'line',
+    var label = <?php echo json_encode($label); ?>;
+    var dataset = <?php echo json_encode($hasil["dataset"]); ?>;
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
 
-            // The data for our dataset
-            data: {
-                labels: label,
-                datasets: [{
-                    label: 'Data Signal PCG',
-                    borderColor: 'rgb(255, 99, 132)',
-                    data: dataset
-                }]
-            },
+        // The data for our dataset
+        data: {
+            labels: label,
+            datasets: [{
+                label: 'Data Signal PCG',
+                borderColor: 'rgb(255, 99, 132)',
+                data: dataset
+            }]
+        },
 
             // Configuration options go here
             options: {}
-        });
+    });
 </script>
 <script>
   $(function () {

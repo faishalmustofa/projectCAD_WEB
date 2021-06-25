@@ -133,7 +133,6 @@ class HomeController extends Controller
         if(Auth::user()){
             //Read File
             $dataSignal = "dataSignal.txt";
-            $waktuSignal = "waktuSignal.txt";
             // $txtFile = public_path('storage/upload/files/'. $nama_file);
 
             //Ubah Nama File
@@ -141,7 +140,6 @@ class HomeController extends Controller
             $namabaru = $pasien->id."_".$pasien->name.".txt";
             // move_uploaded_file($txtFile, "storage/upload/files/dokter/".$namabaru);
             Storage::move("public/upload/files/".$dataSignal, "public/upload/files/dokter/".$namabaru);
-            Storage::move("public/upload/files/".$waktuSignal, "public/upload/files/waktusignal/waktuSignal_".$namabaru);
 
             //Update nama file di Database
             $pasien->file = $namabaru;
@@ -176,11 +174,9 @@ class HomeController extends Controller
             $file_preproses = $pasien->file;
             $pathfile_hasilproses = public_path('storage/upload/files/hasilproses/'. $file_hasilproses);
             $pathfile_preproses = public_path('storage/upload/files/dokter/'. $file_preproses);
-            $pathfile_waktuSignal = public_path('storage/upload/files/waktusignal/waktuSignal_'. $file_preproses);
 
             File::delete($pathfile_hasilproses);
             File::delete($pathfile_preproses);
-            File::delete($pathfile_waktuSignal);
 
             #delete datebase pasien
             Pasien::where('id',$id)->delete();
@@ -201,10 +197,12 @@ class HomeController extends Controller
             $dataset->id_pasien = $pasien->id;
             $dataset->nama = $pasien->name;
             $dataset->pathdata = $pasien->file;
+            $dataset->label = $pasien->label;
             $dataset->save();
 
             # Execute Python From Laravel
-            $output = shell_exec("python C:\Users/rafli/PycharmProjects/CAD_ultrasound/cobalagi.py 2>&1");
+            // chdir('C:\Users/rafli/PycharmProjects/projectCAD/ML_Predict.py 2>&1');
+            // $output = shell_exec("python ML_Predict.py 2>&1");
 
             $status = 1;
             $pasien->status = $status;
@@ -231,21 +229,14 @@ class HomeController extends Controller
             }
             fclose($file);
 
+            $label = array();
             $hasil = array();
             $hasil['pasien'] = $pasien;
             $hasil['dataset'] = $array_file;
-
-            # read file waktu singal pasien
-            $txtWaktu = public_path('storage/upload/files/waktusignal/waktuSignal_'. $pasien->file);
-            $waktuSignal = fopen($txtWaktu,"r");
-            $label = array();
-            while (!feof($waktuSignal)){
-                $label[] = fgets($waktuSignal);
+            foreach($hasil['dataset'] as $key => $value) {
+                // array_push($label, $key);
+                $label[] = $key;
             }
-            fclose($waktuSignal);
-            // foreach($hasil['dataset'] as $key => $value) {
-            //     array_push($label, $key);
-            // }
 
             return view('detailpasien',[
                 'hasil' => $hasil,

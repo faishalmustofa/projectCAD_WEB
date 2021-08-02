@@ -202,7 +202,7 @@ class HomeController extends Controller
 
             # Execute Python From Laravel
             // chdir('C:\Users/rafli/PycharmProjects/projectCAD/ML_Predict.py 2>&1');
-            // $output = shell_exec("python ML_Predict.py 2>&1");
+            // $output = shell_exec("python C:\Users/rafli/PycharmProjects/projectCAD/ML_Predict.py 2>&1");
 
             $status = 1;
             $pasien->status = $status;
@@ -220,6 +220,7 @@ class HomeController extends Controller
             $filename = $pasien->hasilproses;
 
             //read filetxt
+            // $txtFile = Storage::get('public/upload/files/hasilproses/'.$filename);
             $txtFile = public_path('storage/upload/files/hasilproses/'. $filename);
 
             $file = fopen($txtFile,"r");

@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 10 Des 2020 pada 12.12
--- Versi server: 10.4.11-MariaDB
--- Versi PHP: 7.2.27
+-- Waktu pembuatan: 02 Agu 2021 pada 20.21
+-- Versi server: 10.4.18-MariaDB
+-- Versi PHP: 7.3.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -33,6 +32,7 @@ CREATE TABLE `datasets` (
   `id_pasien` bigint(20) NOT NULL,
   `nama` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `pathdata` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `label` tinyint(1) NOT NULL,
   `hasil` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -42,8 +42,8 @@ CREATE TABLE `datasets` (
 -- Dumping data untuk tabel `datasets`
 --
 
-INSERT INTO `datasets` (`id`, `id_pasien`, `nama`, `pathdata`, `hasil`, `created_at`, `updated_at`) VALUES
-(1, 28, 'pedel', '28_pedel.txt', 'hasilproses_23_Safira.txt', NULL, '2020-11-25 03:37:29');
+INSERT INTO `datasets` (`id`, `id_pasien`, `nama`, `pathdata`, `label`, `hasil`, `created_at`, `updated_at`) VALUES
+(1, 33, 'Ahmad', '33_Ahmad.txt', 0, '', NULL, '2021-08-02 11:15:15');
 
 -- --------------------------------------------------------
 
@@ -89,6 +89,13 @@ CREATE TABLE `file_pasiens` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `file_pasiens`
+--
+
+INSERT INTO `file_pasiens` (`id`, `dokter_id`, `pasien_id`, `filename`, `created_at`, `updated_at`) VALUES
+(27, 1, 33, '33_Ahmad.txt', '2021-08-02 11:15:15', '2021-08-02 11:15:15');
 
 -- --------------------------------------------------------
 
@@ -242,6 +249,13 @@ CREATE TABLE `pasien` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data untuk tabel `pasien`
+--
+
+INSERT INTO `pasien` (`id`, `dokter_id`, `name`, `tanggal_lahir`, `no_telp`, `jeniskelamin`, `alamat`, `label`, `file`, `hasilproses`, `status`, `created_at`, `updated_at`) VALUES
+(33, 1, 'Ahmad', '1997-02-05', '11111', 'Laki-laki', 'Bandung', 0, '33_Ahmad.txt', 'hasilproses_33_Ahmad.txt', 1, '2021-08-02 11:14:08', '2021-08-02 11:15:22');
+
 -- --------------------------------------------------------
 
 --
@@ -382,7 +396,7 @@ ALTER TABLE `dokters`
 -- AUTO_INCREMENT untuk tabel `file_pasiens`
 --
 ALTER TABLE `file_pasiens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT untuk tabel `fitur_ekstraksis`
@@ -412,7 +426,7 @@ ALTER TABLE `oauth_personal_access_clients`
 -- AUTO_INCREMENT untuk tabel `pasien`
 --
 ALTER TABLE `pasien`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
